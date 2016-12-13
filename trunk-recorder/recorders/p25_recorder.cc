@@ -56,10 +56,24 @@ p25_recorder::p25_recorder(Source *src)
   valve = gr::blocks::copy::make(sizeof(gr_complex));
   valve->set_enabled(false);
 
-  lpf_coeffs = gr::filter::firdes::low_pass(1.0, input_rate, xlate_bandwidth, 1000, gr::filter::firdes::WIN_HANN);
+  int channel_size = 12500; //system_channel_rate;
+  int channels = floor(samp_rate / channel_size);
+
+  double lower_freq = center - (samp_rate/2);
+  int channel = floor((freq - lower_freq) / channel_size);
+  std::cout << "Lower Freq: " << lower_freq << " Channels: " << channels << " Channel: " << channel << " Channel Freq " << lower_freq + (channel*channel_size) << std::endl;
+
+
+  int decimation = channels;
+
+  lpf_coeffs = gr::filter::firdes::low_pass_2(1, samp_rate, 10000, 5000, 60);
+  prefilter = gr::filter::pfb_decimator_ccf::make(channels, lpf_coeffs,	channel,true, true);
+
+  //lpf_coeffs = gr::filter::firdes::low_pass(1.0, input_rate, xlate_bandwidth, 1000, gr::filter::firdes::WIN_HANN);
 
   // int decimation = int(input_rate / system_channel_rate);
-  int decimation = int(input_rate / 96000);
+  //int decimation = int(input_rate / 96000);
+
 
   std::vector<gr_complex> dest(lpf_coeffs.begin(), lpf_coeffs.end());
 
@@ -68,11 +82,11 @@ p25_recorder::p25_recorder(Source *src)
                 lpf_coeffs,
                 offset,
                 samp_rate);*/
-
+/*
   prefilter = make_freq_xlating_fft_filter(decimation,
                                            dest,
                                            offset,
-                                           samp_rate);
+                                           samp_rate);*/
 
   tagger = latency_make_tagger(sizeof(gr_complex), 512, "latency0");
   std::vector<std::string> keys;
@@ -325,7 +339,14 @@ long p25_recorder::elapsed() {
 void p25_recorder::tune_offset(double f) {
   freq = f;
   int offset_amount = (f - center);
-  prefilter->set_center_freq(offset_amount); // have to flip this for 3.7
+  int channel_size = 12500;
+
+
+  double lower_freq = center - (8000000/2);
+  double channel = floor((freq - lower_freq) / channel_size);
+  std::cout << "Lower Freq: " << lower_freq << " Channel: " << channel << " Channel Freq " << lower_freq + (channel*channel_size) << std::endl;
+  prefilter->set_channel(channel);
+  //prefilter->set_center_freq(offset_amount); // have to flip this for 3.7
   // BOOST_LOG_TRIVIAL(info) << "Offset set to: " << offset_amount << " Freq: "
   //  << freq;
 }
@@ -359,7 +380,14 @@ void p25_recorder::start(Call *call, int n) {
     BOOST_LOG_TRIVIAL(info) << "p25_recorder.cc: Starting Logger   \t[ " << num << " ] - freq[ " << freq << "] \t talkgroup[ " << talkgroup << " ]";
 
     int offset_amount = (freq - center);
-    prefilter->set_center_freq(offset_amount);
+
+    int channel_size = 12500;
+
+
+    double lower_freq = center - (8000000/2);
+    double channel = floor((freq - lower_freq) / channel_size);
+    std::cout << "Lower Freq: " << lower_freq << " Channel: " << channel << " Channel Freq " << lower_freq + (channel*channel_size) << std::endl;
+    prefilter->set_channel(channel);
 
     wav_sink->open(call->get_filename());
     state = active;

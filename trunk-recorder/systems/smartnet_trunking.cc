@@ -38,24 +38,31 @@ smartnet_trunking::smartnet_trunking(float               f,
   int   decim               = int(samples_per_second / (syms_per_sec * clockrec_oversample));
   float sps                 = samples_per_second / decim / syms_per_sec;
   const double pi           = boost::math::constants::pi<double>();
+  int channel_size = 12500;
+  int channels = floor(samp_rate / channel_size);
+
+  double lower_freq = center_freq - (samp_rate/2);
+  double channel = floor((chan_freq - lower_freq) / channel_size);
   cout << "SmartNet Trunking - SysId: " << sys_id << endl;
   cout << "Control channel offset: " << offset << endl;
   cout << "Control channel: " << chan_freq << endl;
   cout << "Decim: " << decim << endl;
   cout << "Samples per symbol: " << sps << endl;
+  cout << "Lower Freq: " << lower_freq << " Channels: " << channels << " Channel: " << channel << " Channel Freq " << lower_freq + (channel*channel_size) << endl;
 
   std::vector<float> lpf_taps;
 
-
+  //lpf_taps = gr::filter::firdes::low_pass_2(1, samp_rate, 10000, 5000, 60);
+  //prefilter = gr::filter::pfb_decimator_ccf::make	(channels, lpf_taps,	channel,true, true);
   lpf_taps =  gr::filter::firdes::low_pass(1, samp_rate, 4500, 2000);
   std::vector<gr_complex> dest(lpf_taps.begin(), lpf_taps.end());
   cout << "Number of LPF taps: " << lpf_taps.size() << endl;
 
-  /*prefilter = make_freq_xlating_fft_filter(decim,
+/*  prefilter = make_freq_xlating_fft_filter(decim,
                                                                          dest,
                                                                          offset,
-                                                                         samp_rate);*/
-
+                                                                         samp_rate);
+*/
 
   prefilter =
     gr::filter::freq_xlating_fir_filter_ccf::make(decim,
@@ -106,6 +113,6 @@ smartnet_trunking::smartnet_trunking(float               f,
 void smartnet_trunking::tune_offset(double f) {
   chan_freq = f;
   int offset_amount = (f - center_freq);
-  prefilter->set_center_freq(offset_amount); // have to flip this for 3.7
+//  prefilter->set_center_freq(offset_amount); // have to flip this for 3.7
   cout << "Offset set to: " << offset_amount << " Freq: " << chan_freq << endl;
 }

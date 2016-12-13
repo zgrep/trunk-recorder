@@ -21,6 +21,7 @@
 #include <gnuradio/filter/firdes.h>
 #include <gnuradio/filter/fir_filter_ccf.h>
 #include <gnuradio/filter/fir_filter_fff.h>
+#include <gnuradio/filter/pfb_decimator_ccf.h>
 #include <gnuradio/filter/freq_xlating_fir_filter_ccf.h>
 #include <gnuradio/filter/firdes.h>
 #include <gnuradio/filter/rational_resampler_base_ccc.h>
@@ -131,8 +132,8 @@ private:
 								std::vector<float> sym_taps;
 
 								//gr::filter::freq_xlating_fir_filter_ccf::sptr prefilter;
-
-								freq_xlating_fft_filter_sptr prefilter;
+								gr::filter::pfb_decimator_ccf::sptr prefilter;
+								//freq_xlating_fft_filter_sptr prefilter;
 								latency_tagger_sptr tagger;
 								latency_probe_sptr active_probe;
 								latency_probe_sptr last_probe;

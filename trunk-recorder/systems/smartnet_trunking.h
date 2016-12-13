@@ -8,7 +8,7 @@
 #include <gnuradio/message.h>
 #include <gnuradio/blocks/file_sink.h>
 #include <gnuradio/gr_complex.h>
-
+#include <gnuradio/filter/pfb_decimator_ccf.h>
 #include <gnuradio/filter/freq_xlating_fir_filter_ccf.h>
 #include <gnuradio/filter/firdes.h>
 #include <gnuradio/filter/firdes.h>
@@ -40,8 +40,10 @@ class smartnet_trunking : public gr::hier_block2
 public:
 								void tune_offset(double f);
 protected:
+								//gr::filter::pfb_decimator_ccf::sptr prefilter;
+
 								gr::filter::freq_xlating_fir_filter_ccf::sptr prefilter;
-//freq_xlating_fft_filter_sptr prefilter;
+								//freq_xlating_fft_filter_sptr prefilter;
 								smartnet_trunking(float f, float c, long s, gr::msg_queue::sptr queue, int sys_id);
 								double samp_rate, chan_freq, center_freq;
 								int sys_id;

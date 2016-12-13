@@ -804,7 +804,7 @@ void monitor_messages() {
 
 
     msg = msg_queue->delete_head_nowait();
-    
+
     if (msg != 0) {
       sys_id = msg->arg1();
       sys    = find_system(sys_id);
@@ -943,7 +943,8 @@ int main(void)
   // }
 
   if (monitor_system()) {
-    tb->start();
+
+tb->start();
 
     monitor_messages();
 
@@ -955,6 +956,8 @@ int main(void)
     tb->wait();
   } else {
     BOOST_LOG_TRIVIAL(error) << "Unable to setup Control Channel Monitor" <<  std::endl;
+    tb->stop();
+    tb->wait();
   }
 
   return 0;

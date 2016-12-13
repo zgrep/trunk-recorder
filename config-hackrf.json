@@ -1,0 +1,25 @@
+{ "sources": [
+{                  "center": 493500000.0,
+            "rate": 8000000.0,
+            "error": -8000,
+            "gain": 14,
+            "ifGain": 24,
+            "bbGain": 36,
+            "digitalRecorders": 0,
+            "analogRecorders": 1,
+            "fskGain": 66,
+            "modulation": "fsk4",
+            "debugRecorders": 1,
+            "driver": "osmosdr",
+            "device": "buffers=64"
+    }
+],
+"systems": [
+	 {
+        "control_channels": [496437500, 496537500 ],
+        "type": "smartnet",
+        "talkgroupsFile": "wmata.csv"
+    }],
+    "defaultModulation": "analog"
+
+}
