@@ -183,7 +183,7 @@ p25_recorder::p25_recorder(Source *src)
   op25_frame_assembler = gr::op25_repeater::p25_frame_assembler::make(0, wireshark_host, udp_port, verbosity, do_imbe, do_output, silence_frames, do_msgq, rx_queue, do_audio_output, do_tdma);
 
   converter = gr::blocks::divide_ff::make(32768.0);
-  levels = gr::blocks::multiply_const_ff::make(source->get_digital_levels());
+  levels = gr::blocks::multiply_const_ff::make((1/32768.0) * source->get_digital_levels());
 
   tm *ltm = localtime(&starttime);
 
