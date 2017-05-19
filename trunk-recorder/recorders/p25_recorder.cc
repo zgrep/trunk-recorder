@@ -332,7 +332,7 @@ Rx_Status p25_recorder::get_rx_status() {
 }
 void p25_recorder::stop() {
   if (state == active) {
-    //op25_frame_assembler->clear();
+    //clear();
     BOOST_LOG_TRIVIAL(info) << "\t- Stopping P25 Recorder Num [" << num << "]\tTG: " << talkgroup << "\tFreq: " << chan_freq << " \tTDMA: " << phase2_tdma << "\tSlot: " << tdma_slot;
     state = inactive;
     valve->set_enabled(false);

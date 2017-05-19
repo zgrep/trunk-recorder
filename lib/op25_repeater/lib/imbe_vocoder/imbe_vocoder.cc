@@ -37,7 +37,7 @@ void imbe_vocoder::clear() {
 	fund_freq_prev = 0;
 	th_max = 0;
 	dc_rmv_mem = 0;
-	
+
 	decode_init(&my_imbe_param);
 }
 
@@ -92,5 +92,6 @@ imbe_vocoder::imbe_vocoder (void) :
 		fprintf(stderr,"This program comes with ABSOLUTELY NO WARRANTY.\n");
 		fprintf(stderr,"This is free software, and you are welcome to redistribute it\n");
 		fprintf(stderr,"under certain conditions; see the file ``LICENSE'' for details.\n");
+		fprintf(stderr,"Gain: %d\n", d_gain_adjust);
 	}
 }

@@ -50,7 +50,7 @@ namespace gr {
       ambe_encoder_sb_impl(int verbose_flag);
       ~ambe_encoder_sb_impl();
 
-      //void forecast (int noutput_items, gr_vector_int &ninput_items_required);
+      void forecast (int noutput_items, gr_vector_int &ninput_items_required);
 
       int general_work(int noutput_items,
 		       gr_vector_int &ninput_items,

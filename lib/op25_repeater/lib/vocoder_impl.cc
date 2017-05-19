@@ -91,7 +91,7 @@ namespace gr {
      *
      * Thanks to Matt Mills for catching a bug where this value wasn't set correctly
      */
-     /*
+
 void
 vocoder_impl::forecast(int nof_output_items, gr_vector_int &nof_input_items_reqd)
 {
@@ -99,7 +99,7 @@ vocoder_impl::forecast(int nof_output_items, gr_vector_int &nof_input_items_reqd
    const size_t nof_inputs = nof_input_items_reqd.size();
    const int nof_samples_reqd = (opt_encode_flag) ? (1.66667 * nof_output_items) : (0.2 * nof_output_items);
    std::fill(&nof_input_items_reqd[0], &nof_input_items_reqd[nof_inputs], nof_samples_reqd);
-}*/
+}
 
 int
 vocoder_impl::general_work_decode (int noutput_items,

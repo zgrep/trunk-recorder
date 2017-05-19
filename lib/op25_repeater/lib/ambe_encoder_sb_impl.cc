@@ -73,7 +73,7 @@ static const int MAX_OUT = 1;
     ambe_encoder_sb_impl::~ambe_encoder_sb_impl()
     {
     }
-/*
+
 void
 ambe_encoder_sb_impl::forecast(int nof_output_items, gr_vector_int &nof_input_items_reqd)
 {
@@ -82,7 +82,7 @@ ambe_encoder_sb_impl::forecast(int nof_output_items, gr_vector_int &nof_input_it
    const size_t nof_inputs = nof_input_items_reqd.size();
    const int nof_samples_reqd = 160.0 * (nof_output_items);
    std::fill(&nof_input_items_reqd[0], &nof_input_items_reqd[nof_inputs], nof_samples_reqd);
-}*/
+}
 
 int
 ambe_encoder_sb_impl::general_work (int noutput_items,

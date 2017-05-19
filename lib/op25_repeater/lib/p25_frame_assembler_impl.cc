@@ -128,7 +128,7 @@ p25_frame_assembler_impl::p25_frame_assembler_impl(int                 sys_num,
 
   if (!d_do_audio_output && !d_do_imbe) set_output_multiple(160);
 }
-/*
+
 void
 p25_frame_assembler_impl::forecast(int nof_output_items, gr_vector_int& nof_input_items_reqd)
 {
@@ -158,7 +158,7 @@ p25_frame_assembler_impl::forecast(int nof_output_items, gr_vector_int& nof_inpu
   for (int i = 0; i < nof_inputs; i++) {
     nof_input_items_reqd[i] = nof_samples_reqd;
   }
-}*/
+}
 
 void p25_frame_assembler_impl::reset_rx_status() {
   p1fdma.reset_rx_status();
