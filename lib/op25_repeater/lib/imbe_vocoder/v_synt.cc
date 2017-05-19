@@ -2,17 +2,17 @@
  * Project 25 IMBE Encoder/Decoder Fixed-Point implementation
  * Developed by Pavel Yazev E-mail: pyazev@gmail.com
  * Version 1.0 (c) Copyright 2009
- * 
+ *
  * This is free software; you can redistribute it and/or modify it
  * under the terms of the GNU General Public License as published by
  * the Free Software Foundation; either version 3, or (at your option)
  * any later version.
- * 
+ *
  * The software is distributed in the hope that it will be useful, but
  * WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
  * See the GNU General Public License for more details.
- * 
+ *
  * You should have received a copy of the GNU General Public License
  * along with this; see the file COPYING.  If not, write to the Free
  * Software Foundation, Inc., 51 Franklin Street, Boston, MA
@@ -76,7 +76,7 @@ void imbe_vocoder::v_synt(IMBE_PARAM *imbe_param, Word16 *snd)
 
 	for(i = 0; i < FRAME; i++)
 		L_snd[i] = 0;
-	
+
 	// Update phases (calculated phase value correspond to bound of frame)
 	L_tmp = (((fund_freq_prev + fund_freq) >> 7) * FRAME/2) << 7;  // It is performed integer multiplication by mod 1
 
@@ -108,11 +108,11 @@ void imbe_vocoder::v_synt(IMBE_PARAM *imbe_param, Word16 *snd)
 		{
 			if(num_uv == num_harms)
 			{
-				dph[i] = L_deposit_h(rand_gen());				
+				dph[i] = L_deposit_h(rand_gen());
 			}
 			else
-			{			
-				L_tmp = L_mult(rand_gen(), num_harms_inv); 
+			{
+				L_tmp = L_mult(rand_gen(), num_harms_inv);
 				dph[i] = L_shr(L_tmp, 15 - num_harms_sh) * num_uv;
 			}
 			ph_mem[i] += dph[i];
@@ -144,7 +144,7 @@ void imbe_vocoder::v_synt(IMBE_PARAM *imbe_param, Word16 *snd)
 			continue;
 		}
 
- 
+
 		if(vu_dsn[i] == 0 && vu_dsn_prev[i] == 1)  // voiced => unvoiced
 		{
 			s_ptr = (Word16 *)&ws[48];
@@ -210,24 +210,24 @@ void imbe_vocoder::v_synt(IMBE_PARAM *imbe_param, Word16 *snd)
 			}
 			continue;
 		}
-	
-		L_amp_step = L_mpy_ls(L_shr(L_deposit_h(sub(sa[i], sa_prev3[i])), 4 + 1), CNST_0_1_Q1_15); // (sa[i] - sa_prev3[i]) / 160, 1/160 = 0.1/16 
+
+		L_amp_step = L_mpy_ls(L_shr(L_deposit_h(sub(sa[i], sa_prev3[i])), 4 + 1), CNST_0_1_Q1_15); // (sa[i] - sa_prev3[i]) / 160, 1/160 = 0.1/16
 		L_amp_acc  = L_shr(L_deposit_h(sa_prev3[i]), 1);
 
-		
+
 		L_ph_step_aux = L_mpy_ls(L_shr(fund_freq - fund_freq_prev, 4 + 1), CNST_0_1_Q1_15);       // (fund_freq - fund_freq_prev)/(2*160)
 		L_ph_step_aux = ((L_ph_step_aux >> 7) * (i + 1)) << 7;
 
 		L_ph_acc = ph_mem_prev[i];
 
 		L_tmp1 = L_mpy_ls(L_shr(dph[i], 4), CNST_0_1_Q1_15);  // dph[i] / 160
-					
+
 		for(j = 0; j < 160; j++)
 		{
-			L_ph_acc_aux = ((L_ph_step_aux >> 9) * j) << 9; 
-			L_ph_acc_aux = ((L_ph_acc_aux >> 9) * j) << 9; 
+			L_ph_acc_aux = ((L_ph_step_aux >> 9) * j) << 9;
+			L_ph_acc_aux = ((L_ph_acc_aux >> 9) * j) << 9;
 
-			L_tmp = L_mpy_ls(L_amp_acc, cos_fxp(extract_h(L_ph_acc + L_ph_acc_aux)));			
+			L_tmp = L_mpy_ls(L_amp_acc, cos_fxp(extract_h(L_ph_acc + L_ph_acc_aux)));
 			L_snd[j] = L_add(L_snd[j], L_tmp);
 
 			L_amp_acc = L_add(L_amp_acc, L_amp_step);

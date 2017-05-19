@@ -216,12 +216,12 @@ namespace gr {
       std::fill(&d_history[0], &d_history[NTAPS], 0.0);
     }
 
-    void
+    /*void
     fsk4_demod_ff_impl::forecast (int noutput_items, gr_vector_int &ninput_items_required)
     {
       const int nof_samples_reqd = static_cast<int>(ceil(d_block_rate * noutput_items));
       std::fill(&ninput_items_required[0], &ninput_items_required[ninput_items_required.size()], nof_samples_reqd);
-    }
+    }*/
 
     int
     fsk4_demod_ff_impl::general_work (int noutput_items,

@@ -54,7 +54,7 @@ private:
   long total_produced;
   gr::msg_queue::sptr d_msg_queue;
   int d_input_rate;
-  
+
   pmt::pmt_t d_tag_key;
   pmt::pmt_t d_tag_src;
 
@@ -67,13 +67,13 @@ private:
   void reset_rx_status();
   Rx_Status get_rx_status();
   typedef std::vector<bool>bit_vector;
-  std::deque<int16_t> output_queue;
+  std::deque<float> output_queue;
 
 public:
-
+/*
   virtual void forecast(int            nof_output_items,
                         gr_vector_int& nof_input_items_reqd);
-
+*/
   // Nothing to declare in this block.
 
 public:

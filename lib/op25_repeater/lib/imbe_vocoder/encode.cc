@@ -2,17 +2,17 @@
  * Project 25 IMBE Encoder/Decoder Fixed-Point implementation
  * Developed by Pavel Yazev E-mail: pyazev@gmail.com
  * Version 1.0 (c) Copyright 2009
- * 
+ *
  * This is free software; you can redistribute it and/or modify it
  * under the terms of the GNU General Public License as published by
  * the Free Software Foundation; either version 3, or (at your option)
  * any later version.
- * 
+ *
  * The software is distributed in the hope that it will be useful, but
  * WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
  * See the GNU General Public License for more details.
- * 
+ *
  * You should have received a copy of the GNU General Public License
  * along with this; see the file COPYING.  If not, write to the Free
  * Software Foundation, Inc., 51 Franklin Street, Boston, MA
@@ -57,13 +57,13 @@ void imbe_vocoder::encode(IMBE_PARAM *imbe_param, Word16 *frame_vector, Word16 *
 {
 	Word16 i;
 	Word16 *wr_ptr, *sig_ptr;
-	
+
 	for(i = 0; i < PITCH_EST_BUF_SIZE - FRAME; i++)
 	{
 		pitch_est_buf[i] = pitch_est_buf[i + FRAME];
 		pitch_ref_buf[i] = pitch_ref_buf[i + FRAME];
 	}
-		
+
 	dc_rmv(snd, &pitch_ref_buf[PITCH_EST_BUF_SIZE - FRAME], &dc_rmv_mem, FRAME);
 	pe_lpf(&pitch_ref_buf[PITCH_EST_BUF_SIZE - FRAME], &pitch_est_buf[PITCH_EST_BUF_SIZE - FRAME], pe_lpf_mem, FRAME);
 
@@ -74,20 +74,20 @@ void imbe_vocoder::encode(IMBE_PARAM *imbe_param, Word16 *frame_vector, Word16 *
 	//
 	wr_ptr  = (Word16 *)wr;
 	sig_ptr = &pitch_ref_buf[40];
-	for(i = 146; i < 256; i++) 
+	for(i = 146; i < 256; i++)
 	{
-		fft_buf[i].re = mult(*sig_ptr++, *wr_ptr++); 
+		fft_buf[i].re = mult(*sig_ptr++, *wr_ptr++);
 		fft_buf[i].im = 0;
 	}
 	fft_buf[0].re = *sig_ptr++;
 	fft_buf[0].im = 0;
 	wr_ptr--;
-	for(i = 1; i < 111; i++) 
+	for(i = 1; i < 111; i++)
 	{
-		fft_buf[i].re = mult(*sig_ptr++, *wr_ptr--); 
+		fft_buf[i].re = mult(*sig_ptr++, *wr_ptr--);
 		fft_buf[i].im = 0;
 	}
-	for(i = 111; i < 146; i++) 
+	for(i = 111; i < 146; i++)
 		fft_buf[i].re = fft_buf[i].im = 0;
 
 	fft((Word16 *)&fft_buf, FFTLENGTH, 1);

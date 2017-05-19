@@ -152,7 +152,7 @@ void gardner_costas_cc_impl::set_omega (float omega) {
     memset(d_dl, 0, NUM_COMPLEX * sizeof(gr_complex));
 }
 
-
+/*
 void
 gardner_costas_cc_impl::forecast(int noutput_items, gr_vector_int &ninput_items_required)
 {
@@ -160,7 +160,7 @@ gardner_costas_cc_impl::forecast(int noutput_items, gr_vector_int &ninput_items_
   for (unsigned i=0; i < ninputs; i++)
     ninput_items_required[i] =
       (int) ceil((noutput_items * d_omega) + d_interp->ntaps());
-}
+}*/
 
 float   // for QPSK
 gardner_costas_cc_impl::phase_error_detector_qpsk(gr_complex sample)

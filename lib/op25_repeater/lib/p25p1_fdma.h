@@ -68,7 +68,7 @@ private:
   Rx_Status rx_status;
   double error_history[20];
   gr::msg_queue::sptr  d_msg_queue;
-  std::deque<int16_t>& output_queue;
+  std::deque<float>& output_queue;
   p25_framer *framer;
   long curr_src_id;
   struct timeval last_qtime;
@@ -88,7 +88,7 @@ public:
              bool                 do_output,
              bool                 do_msgq,
              gr::msg_queue::sptr  queue,
-             std::deque<int16_t>& output_queue,
+             std::deque<float>& output_queue,
              bool                 do_audio_output);
   ~p25p1_fdma();
   void clear();

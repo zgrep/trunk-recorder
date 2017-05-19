@@ -1,17 +1,17 @@
 // P25 TDMA Decoder (C) Copyright 2013, 2014 Max H. Parke KA1RBI
-// 
+//
 // This file is part of OP25
-// 
+//
 // OP25 is free software; you can redistribute it and/or modify it
 // under the terms of the GNU General Public License as published by
 // the Free Software Foundation; either version 3, or (at your option)
 // any later version.
-// 
+//
 // OP25 is distributed in the hope that it will be useful, but WITHOUT
 // ANY WARRANTY; without even the implied warranty of MERCHANTABILITY
 // or FITNESS FOR A PARTICULAR PURPOSE. See the GNU General Public
 // License for more details.
-// 
+//
 // You should have received a copy of the GNU General Public License
 // along with OP25; see the file COPYING. If not, write to the Free
 // Software Foundation, Inc., 51 Franklin Street, Boston, MA
@@ -66,7 +66,7 @@ static bool crc12_ok(const uint8_t bits[], unsigned int len) {
 	return (crc == crc12(bits,len));
 }
 
-p25p2_tdma::p25p2_tdma(int slotid, int debug, std::deque<int16_t> &qptr) :	// constructor
+p25p2_tdma::p25p2_tdma(int slotid, int debug, std::deque<float> &qptr) :	// constructor
 	tdma_xormask(new uint8_t[SUPERFRAME_SIZE]),
 	symbols_received(0),
 	packets(0),
@@ -103,17 +103,17 @@ p25p2_tdma::set_xormask(const char*p) {
 		tdma_xormask[i] = p[i] & 3;
 }
 
-int p25p2_tdma::process_mac_pdu(const uint8_t byte_buf[], unsigned int len) 
+int p25p2_tdma::process_mac_pdu(const uint8_t byte_buf[], unsigned int len)
 {
 	unsigned int opcode = (byte_buf[0] >> 5) & 0x7;
 	unsigned int offset = (byte_buf[0] >> 2) & 0x7;
-	// maps sacch opcodes into phase I duid values 
+	// maps sacch opcodes into phase I duid values
 	static const int opcode_map[8] = {3, 5, 3, 3, 5, 3, 3, 3};
 	return opcode_map[opcode];
 	// TODO: decode MAC PDU's
 }
 
-int p25p2_tdma::handle_acch_frame(const uint8_t dibits[], bool fast) 
+int p25p2_tdma::handle_acch_frame(const uint8_t dibits[], bool fast)
 {
 	int rc = -1;
 	uint8_t bits[512];
@@ -167,11 +167,11 @@ int p25p2_tdma::handle_acch_frame(const uint8_t dibits[], bool fast)
 	return rc;
 }
 
-void p25p2_tdma::handle_voice_frame(const uint8_t dibits[]) 
+void p25p2_tdma::handle_voice_frame(const uint8_t dibits[])
 {
 	static const int NSAMP_OUTPUT=160;
 	int b[9];
-	int16_t snd;
+	float snd;
 	int K;
 	int rc = -1;
 
@@ -187,7 +187,7 @@ void p25p2_tdma::handle_voice_frame(const uint8_t dibits[])
 	audio_samples *samples = software_decoder.audio();
 	for (int i=0; i < NSAMP_OUTPUT; i++) {
 		if (samples->size() > 0) {
-			snd = (int16_t)(samples->front());
+			snd = (samples->front());
 			samples->pop_front();
 		} else {
 			snd = 0;
@@ -209,7 +209,7 @@ int p25p2_tdma::handle_frame(void)
 }
 
 /* returns true if in sync and slot matches current active slot d_slotid */
-int p25p2_tdma::handle_packet(const uint8_t dibits[]) 
+int p25p2_tdma::handle_packet(const uint8_t dibits[])
 {
 	int rc = -1;
 	static const int which_slot[] = {0,1,0,1,0,1,0,1,0,1,1,0};

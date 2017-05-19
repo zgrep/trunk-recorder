@@ -216,8 +216,7 @@ p25_recorder::p25_recorder(Source *src)
     connect(sym_filter,           0, fsk4_demod,           0);
     connect(fsk4_demod,           0, slicer,               0);
     connect(slicer,               0, op25_frame_assembler, 0);
-    connect(op25_frame_assembler, 0, converter,            0);
-    connect(converter,            0, levels,               0);
+    connect(op25_frame_assembler, 0,  levels,               0);
 
     if (squelch_db != 0) {
       connect(levels,      0, squelch_two, 0);
@@ -243,8 +242,7 @@ p25_recorder::p25_recorder(Source *src)
     connect(to_float,             0, rescale,              0);
     connect(rescale,              0, slicer,               0);
     connect(slicer,               0, op25_frame_assembler, 0);
-    connect(op25_frame_assembler, 0, converter,            0);
-    connect(converter,            0, levels,               0);
+    connect(op25_frame_assembler, 0,  levels,               0);
 
     if (squelch_db != 0) {
       connect(levels,      0, squelch_two, 0);

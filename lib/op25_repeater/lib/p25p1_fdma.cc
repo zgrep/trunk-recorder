@@ -214,7 +214,7 @@ p25p1_fdma::p25p1_fdma(int                  sys_num,
                        bool                 do_output,
                        bool                 do_msgq,
                        gr::msg_queue::sptr  queue,
-                       std::deque<int16_t>& output_queue,
+                       std::deque<float>& output_queue,
                        bool                 do_audio_output) :
   write_bufp(0),
   write_sock(0),

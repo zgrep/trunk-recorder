@@ -1,17 +1,17 @@
 /* -*- c++ -*- */
-/* 
+/*
  * Copyright 2009, 2010, 2011, 2012, 2013 KA1RBI
- * 
+ *
  * This is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
  * the Free Software Foundation; either version 3, or (at your option)
  * any later version.
- * 
+ *
  * This software is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  * GNU General Public License for more details.
- * 
+ *
  * You should have received a copy of the GNU General Public License
  * along with this software; see the file COPYING.  If not, write to
  * the Free Software Foundation, Inc., 51 Franklin Street,
@@ -44,7 +44,7 @@ namespace gr {
       vocoder_impl(bool encode_flag, bool verbose_flag, int stretch_amt, char* udp_host, int udp_port, bool raw_vectors_flag);
       ~vocoder_impl();
 
-      void forecast (int noutput_items, gr_vector_int &ninput_items_required);
+      //void forecast (int noutput_items, gr_vector_int &ninput_items_required);
 
       int general_work(int noutput_items,
 		       gr_vector_int &ninput_items,
@@ -63,7 +63,7 @@ namespace gr {
   private:
 
 	std::deque<uint8_t> output_queue;
-	std::deque<int16_t> output_queue_decode;
+	std::deque<float> output_queue_decode;
 	int opt_udp_port;
 	bool opt_encode_flag;
         p25p1_voice_encode p1voice_encode;

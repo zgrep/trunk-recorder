@@ -1,17 +1,17 @@
 // P25 TDMA Decoder (C) Copyright 2013, 2014 Max H. Parke KA1RBI
-// 
+//
 // This file is part of OP25
-// 
+//
 // OP25 is free software; you can redistribute it and/or modify it
 // under the terms of the GNU General Public License as published by
 // the Free Software Foundation; either version 3, or (at your option)
 // any later version.
-// 
+//
 // OP25 is distributed in the hope that it will be useful, but WITHOUT
 // ANY WARRANTY; without even the implied warranty of MERCHANTABILITY
 // or FITNESS FOR A PARTICULAR PURPOSE. See the GNU General Public
 // License for more details.
-// 
+//
 // You should have received a copy of the GNU General Public License
 // along with OP25; see the file COPYING. If not, write to the Free
 // Software Foundation, Inc., 51 Franklin Street, Boston, MA
@@ -34,7 +34,7 @@ class p25p2_tdma;
 class p25p2_tdma
 {
 public:
-	p25p2_tdma(int slotid, int debug, std::deque<int16_t> &qptr) ;	// constructor
+	p25p2_tdma(int slotid, int debug, std::deque<float> &qptr) ;	// constructor
 	int handle_packet(const uint8_t dibits[]) ;
 	void set_slotid(int slotid);
 	uint8_t* tdma_xormask;
@@ -53,7 +53,7 @@ private:
 	mbe_parms prev_mp;
 	mbe_parms enh_mp;
 	software_imbe_decoder software_decoder;
-	std::deque<int16_t> &output_queue_decode;
+	std::deque<float> &output_queue_decode;
 
 	int d_debug;
 	unsigned long int crc_errors;

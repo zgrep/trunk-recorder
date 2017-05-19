@@ -103,7 +103,7 @@ p25_frame_assembler_impl::p25_frame_assembler_impl(int                 sys_num,
   : gr::block("p25_frame_assembler",
               gr::io_signature::make(MIN_IN, MAX_IN, sizeof(char)),
               gr::io_signature::make((do_output || do_audio_output) ? 1 : 0, (do_output || do_audio_output) ? 1 : 0,
-                                     (do_audio_output) ? sizeof(int16_t) : ((do_output) ? sizeof(char) : 0))),
+                                     (do_audio_output) ? sizeof(float) : ((do_output) ? sizeof(char) : 0))),
   d_do_imbe(do_imbe),
   d_do_output(do_output),
   d_silence_frames(silence_frames),
@@ -128,7 +128,7 @@ p25_frame_assembler_impl::p25_frame_assembler_impl(int                 sys_num,
 
   if (!d_do_audio_output && !d_do_imbe) set_output_multiple(160);
 }
-
+/*
 void
 p25_frame_assembler_impl::forecast(int nof_output_items, gr_vector_int& nof_input_items_reqd)
 {
@@ -146,20 +146,19 @@ p25_frame_assembler_impl::forecast(int nof_output_items, gr_vector_int& nof_inpu
   }
 
   if (d_do_audio_output) {
-    samples_reqd = (int)std::ceil(float(d_input_rate / 8000) * float(nof_output_items));
-  /*
+
     if (d_do_phase2_tdma) {
       samples_reqd = floor(0.4 * nof_output_items);
     } else {
       samples_reqd = floor(0.6 * nof_output_items);
-    }*/
+    }
   }
   nof_samples_reqd = (int) samples_reqd;
 
   for (int i = 0; i < nof_inputs; i++) {
     nof_input_items_reqd[i] = nof_samples_reqd;
   }
-}
+}*/
 
 void p25_frame_assembler_impl::reset_rx_status() {
   p1fdma.reset_rx_status();
@@ -199,7 +198,7 @@ p25_frame_assembler_impl::general_work(int                        noutput_items,
 
   if (d_do_audio_output) {
     amt_produce = noutput_items;
-    int16_t *out = (int16_t *)output_items[0];
+    float *out = (float *)output_items[0];
 
 
     if (amt_produce > (int)output_queue.size()) {

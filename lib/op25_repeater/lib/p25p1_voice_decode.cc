@@ -50,7 +50,7 @@ static void clear_bits(bit_vector& v) {
 	}
 }
 
-p25p1_voice_decode::p25p1_voice_decode(bool verbose_flag, const char* udp_host, int udp_port, std::deque<int16_t> &_output_queue) :
+p25p1_voice_decode::p25p1_voice_decode(bool verbose_flag, const char* udp_host, int udp_port, std::deque<float> &_output_queue) :
 	write_sock(0),
 	write_bufp(0),
 	rxbufp(0),
@@ -81,7 +81,8 @@ void p25p1_voice_decode::clear() {
 }
 void p25p1_voice_decode::rxframe(const uint32_t u[])
 {
-	int16_t snd[FRAME];
+	float snd[FRAME];
+  int16_t int_snd[FRAME];
 	int16_t frame_vector[8];
 	// decode 88 bits, outputs 160 sound samples (8000 rate)
 	if (d_software_imbe_decoder) {
@@ -91,27 +92,30 @@ void p25p1_voice_decode::rxframe(const uint32_t u[])
 		audio_samples *samples = software_decoder.audio();
 		for (int i=0; i < FRAME; i++) {
 			if (samples->size() > 0) {
-				snd[i] = (int16_t)(samples->front() * 32768.0);
+				snd[i] = (float)(samples->front() * 32768.0);
 				samples->pop_front();
 			} else {
 				snd[i] = 0;
 			}
 		}
+    // add generated samples to output queue
+    for (int i = 0; i < FRAME; i++) {
+      output_queue.push_back(snd[i]);
+    }
 	} else {
 		for (int i=0; i < 8; i++) {
 			frame_vector[i] = u[i];
 		}
 /* TEST*/	frame_vector[7] >>= 1;
-		vocoder.imbe_decode(frame_vector, snd);
+		vocoder.imbe_decode(frame_vector, int_snd);
+    // add generated samples to output queue
+    for (int i = 0; i < FRAME; i++) {
+      output_queue.push_back(int_snd[i]);
+    }
 	}
-	if (opt_udp_port > 0) {
-		sendto(write_sock, snd, FRAME * sizeof(int16_t), 0, (struct sockaddr*)&write_sock_addr, sizeof(write_sock_addr));
-	} else {
-		// add generated samples to output queue
-		for (int i = 0; i < FRAME; i++) {
-			output_queue.push_back(snd[i]);
-		}
-	}
+
+
+
 }
 
 void p25p1_voice_decode::rxchar(const char* c, int len)

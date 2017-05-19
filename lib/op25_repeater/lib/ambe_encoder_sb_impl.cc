@@ -1,21 +1,21 @@
 /* -*- c++ -*- */
-/* 
+/*
  * GNU Radio interface for halfrate ambe encoder
- * 
+ *
  * (C) Copyright 2016 Max H. Parke KA1RBI
- * 
+ *
  * This file is part of OP25
- * 
+ *
  * This is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
  * the Free Software Foundation; either version 3, or (at your option)
  * any later version.
- * 
+ *
  * This software is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  * GNU General Public License for more details.
- * 
+ *
  * You should have received a copy of the GNU General Public License
  * along with this software; see the file COPYING.  If not, write to
  * the Free Software Foundation, Inc., 51 Franklin Street,
@@ -73,18 +73,18 @@ static const int MAX_OUT = 1;
     ambe_encoder_sb_impl::~ambe_encoder_sb_impl()
     {
     }
-
+/*
 void
 ambe_encoder_sb_impl::forecast(int nof_output_items, gr_vector_int &nof_input_items_reqd)
 {
-   /* produces 1 36-byte-block sample per 160 samples input
-    */
+    //produces 1 36-byte-block sample per 160 samples input
+
    const size_t nof_inputs = nof_input_items_reqd.size();
    const int nof_samples_reqd = 160.0 * (nof_output_items);
    std::fill(&nof_input_items_reqd[0], &nof_input_items_reqd[nof_inputs], nof_samples_reqd);
-}
+}*/
 
-int 
+int
 ambe_encoder_sb_impl::general_work (int noutput_items,
 			       gr_vector_int &ninput_items,
 			       gr_vector_const_void_star &input_items,
