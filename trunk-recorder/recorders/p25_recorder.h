@@ -34,6 +34,7 @@
 #include <gnuradio/blocks/copy.h>
 #include <gnuradio/blocks/short_to_float.h>
 #include <gnuradio/blocks/multiply_const_ff.h>
+#include <gnuradio/blocks/divide_ff.h>
 #include <gnuradio/blocks/complex_to_arg.h>
 
 #include <op25_repeater/include/op25_repeater/fsk4_demod_ff.h>
@@ -136,8 +137,8 @@ private:
   gr::analog::pwr_squelch_cc::sptr       squelch;
   gr::analog::pwr_squelch_ff::sptr       squelch_two;
   gr::blocks::nonstop_wavfile_sink::sptr wav_sink;
-
-  gr::blocks::short_to_float::sptr converter;
+  gr::blocks::divide_ff::sptr converter;
+  //gr::blocks::short_to_float::sptr converter;
   gr::blocks::copy::sptr valve;
 
   gr::blocks::multiply_const_ff::sptr levels;
