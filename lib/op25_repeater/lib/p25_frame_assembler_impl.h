@@ -71,8 +71,7 @@ private:
 
 public:
 
-  virtual void forecast(int            nof_output_items,
-                        gr_vector_int& nof_input_items_reqd);
+  //virtual void forecast(int            nof_output_items, gr_vector_int& nof_input_items_reqd);
 
   // Nothing to declare in this block.
 
