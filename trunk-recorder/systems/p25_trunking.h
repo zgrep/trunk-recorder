@@ -20,14 +20,19 @@
 #include <gnuradio/hier_block2.h>
 
 #include <gnuradio/block.h>
+#if GNURADIO_VERSION < 0x030800
 #include <gnuradio/blocks/multiply_const_ff.h>
+#include <gnuradio/filter/fir_filter_ccf.h>
+#include <gnuradio/filter/fir_filter_fff.h>
+#else
+#include <gnuradio/filter/fir_filter_blk.h>
+#include <gnuradio/blocks/multiply_const.h>
+#endif
 #include <gnuradio/blocks/complex_to_arg.h>
 #include <gnuradio/blocks/short_to_float.h>
 
 #include <gnuradio/filter/firdes.h>
-#include <gnuradio/filter/fir_filter_ccf.h>
 #include <gnuradio/filter/fft_filter_ccf.h>
-#include <gnuradio/filter/fir_filter_fff.h>
 #include <gnuradio/filter/pfb_arb_resampler_ccf.h>
 
 #include <gnuradio/analog/quadrature_demod_cf.h>
