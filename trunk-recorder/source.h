@@ -20,6 +20,7 @@ class Source
 								double max_hz;
 								double center;
 								double rate;
+								double fakerate;
 								double actual_rate;
 								double error;
 								double ppm;
@@ -57,7 +58,7 @@ class Source
 public:
 								int get_num_available_recorders();
 								int get_num();
-								Source(double c, double r, double e, std::string driver, std::string device, Config *cfg);
+								Source(double c, double r, double fakerate, double e, std::string driver, std::string device, Config *cfg);
 								gr::basic_block_sptr get_src_block();
 								double get_min_hz();
 								double get_max_hz();

@@ -531,11 +531,11 @@ void Source::set_min_max() {
  
     }
     long if1 = rate / decim;
-    min_hz = center - ((rate/2) - (if1/2));
-    max_hz = center + ((rate/2) - (if1/2));
+    min_hz = center - ((fakerate/2) - (if1/2));
+    max_hz = center + ((fakerate/2) - (if1/2));
 }
 
-Source::Source(double c, double r, double e, std::string drv, std::string dev, Config *cfg)
+Source::Source(double c, double r, double fakerate, double e, std::string drv, std::string dev, Config *cfg)
 {
   rate   = r;
   center = c;

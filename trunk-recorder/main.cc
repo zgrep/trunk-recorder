@@ -361,6 +361,7 @@ void load_config(string config_file)
       int    silence_frames = node.second.get<int>("silenceFrames", 0);
       double center         = node.second.get<double>("center", 0);
       double rate           = node.second.get<double>("rate", 0);
+      double fakerate       = node.second.get<double>("fakerate", rate);
       double error          = node.second.get<double>("error", 0);
       double ppm            = node.second.get<double>("ppm", 0);
       bool   agc            = node.second.get<bool>("agc", false);
@@ -392,6 +393,7 @@ void load_config(string config_file)
       BOOST_LOG_TRIVIAL(info) << "Driver: " << node.second.get<std::string>("driver",  "");
       BOOST_LOG_TRIVIAL(info) << "Center: " << FormatFreq(node.second.get<double>("center", 0));
       BOOST_LOG_TRIVIAL(info) << "Rate: " << FormatSamplingRate(node.second.get<double>("rate", 0));
+      BOOST_LOG_TRIVIAL(info) << "Fake Rate: " << FormatSamplingRate(fakerate);
       BOOST_LOG_TRIVIAL(info) << "Error: " << node.second.get<double>("error", 0);
       BOOST_LOG_TRIVIAL(info) << "PPM Error: " <<  node.second.get<double>("ppm", 0);
       BOOST_LOG_TRIVIAL(info) << "Auto gain control: " << node.second.get<bool>("agc", false);
@@ -436,7 +438,7 @@ void load_config(string config_file)
         error = 0;
       }
 
-      Source *source = new Source(center, rate, error, driver, device, &config);
+      Source *source = new Source(center, rate, fakerate, error, driver, device, &config);
       BOOST_LOG_TRIVIAL(info) << "Max Frequency: " << FormatFreq(source->get_max_hz());
       BOOST_LOG_TRIVIAL(info) << "Min Frequency: " << FormatFreq(source->get_min_hz());
 
