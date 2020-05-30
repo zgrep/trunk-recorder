@@ -580,6 +580,8 @@ Source::Source(double c, double r, double fakerate, double e, std::string drv, s
     BOOST_LOG_TRIVIAL(info) << "SOURCE TYPE OSMOSDR (osmosdr)";
     BOOST_LOG_TRIVIAL(info) << "Setting sample rate to: " << FormatSamplingRate(rate);
     osmo_src->set_sample_rate(rate);
+    osmo_src->set_bandwidth(rate, 0); // SDRPlay3 needs both to be set.
+
     actual_rate = osmo_src->get_sample_rate();
     BOOST_LOG_TRIVIAL(info) << "Actual sample rate: " << FormatSamplingRate(actual_rate);
     BOOST_LOG_TRIVIAL(info) << "Tuning to " <<  FormatFreq(center + error);
@@ -601,10 +603,6 @@ Source::Source(double c, double r, double fakerate, double e, std::string drv, s
        }
        BOOST_LOG_TRIVIAL(info) << "Gain Stage: " << gain_name << " supported values: " <<  gain_opt_str;
     }
-
-
-
-
 
     source_block = osmo_src;
   }
