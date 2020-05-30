@@ -129,6 +129,26 @@ int Source::get_lna_gain() {
   return lna_gain;
 }
 
+void Source::set_lna_atten(int b)
+{
+  if (driver == "osmosdr") {
+    lna_atten = b;
+    cast_to_osmo_sptr(source_block)->set_gain(lna_atten, "LNA_ATTEN_STEP", 0);
+    BOOST_LOG_TRIVIAL(info) << "LNA Atten set to: " << cast_to_osmo_sptr(source_block)->get_gain("LNA_ATTEN_STEP");
+  }
+}
+
+int Source::get_lna_atten() {
+  if (driver == "osmosdr") {
+    try {
+      lna_atten = cast_to_osmo_sptr(source_block)->get_gain("LNA_ATTEN_STEP", 0);
+    } catch(std::exception& e) {
+      BOOST_LOG_TRIVIAL(error) << "LNA Atten unsupported or other error: " << e.what();
+    }
+  }
+  return lna_atten;
+}
+
 void Source::set_tia_gain(int b)
 {
   if (driver == "osmosdr") {
@@ -546,6 +566,7 @@ Source::Source(double c, double r, double fakerate, double e, std::string drv, s
   config = cfg;
   gain = 0;
   lna_gain = 0;
+  lna_atten = 0;
   tia_gain = 0;
   pga_gain = 0;
   mix_gain = 0;

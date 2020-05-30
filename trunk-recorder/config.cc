@@ -158,6 +158,7 @@ Config load_config(std::string config_file, std::vector<Source *> &sources, std:
       int    bb_gain        = node.second.get<double>("bbGain", 0);
       int    mix_gain       = node.second.get<double>("mixGain", 0);
       int    lna_gain       = node.second.get<double>("lnaGain", 0);
+      int    lna_atten      = node.second.get<double>("lnaAtten", 0);
       int    pga_gain       = node.second.get<double>("pgaGain", 0);
       int    tia_gain       = node.second.get<double>("tiaGain", 0);
       int    vga1_gain      = node.second.get<double>("vga1Gain", 0);
@@ -189,6 +190,7 @@ Config load_config(std::string config_file, std::vector<Source *> &sources, std:
       BOOST_LOG_TRIVIAL(info) << "IF Gain: " << node.second.get<double>("ifGain", 0);
       BOOST_LOG_TRIVIAL(info) << "BB Gain: " << node.second.get<double>("bbGain", 0);
       BOOST_LOG_TRIVIAL(info) << "LNA Gain: " << node.second.get<double>("lnaGain", 0);
+      BOOST_LOG_TRIVIAL(info) << "LNA Atten: " << node.second.get<double>("lnaAtten", 0);
       BOOST_LOG_TRIVIAL(info) << "PGA Gain: " << node.second.get<double>("pgaGain", 0);
       BOOST_LOG_TRIVIAL(info) << "TIA Gain: " << node.second.get<double>("tiaGain", 0);
       BOOST_LOG_TRIVIAL(info) << "MIX Gain: " << node.second.get<double>("mixGain", 0);
@@ -245,6 +247,10 @@ Config load_config(std::string config_file, std::vector<Source *> &sources, std:
 
       if (lna_gain != 0) {
         source->set_lna_gain(lna_gain);
+      }
+
+      if (lna_atten != 0) {
+        source->set_lna_atten(lna_atten);
       }
 
       if (tia_gain != 0) {

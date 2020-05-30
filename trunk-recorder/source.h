@@ -32,6 +32,7 @@ class Source
 								int bb_gain;
 								int if_gain;
 								int lna_gain;
+								int lna_atten;
 								int tia_gain;
 								int pga_gain;
 								int mix_gain;
@@ -91,6 +92,8 @@ public:
 								int get_bb_gain();
 								void set_mix_gain(int b);
 								int get_mix_gain();
+								void set_lna_atten(int b);
+								int get_lna_atten();
 								void set_lna_gain(int b);
 								int get_lna_gain();
 								void set_tia_gain(int b);
